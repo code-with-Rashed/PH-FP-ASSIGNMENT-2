@@ -2,7 +2,7 @@ import { useState } from "react";
 import MovieModal from "./MovieModal";
 
 const Movie = ({ movie }) => {
-  const { name, image, rating, premiered } = movie;
+  const { name, image, rating, premiered } = movie?.show || movie;
   const [openModal, setOpenModal] = useState(false);
   return (
     <>

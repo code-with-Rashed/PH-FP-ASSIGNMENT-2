@@ -1,4 +1,29 @@
-const Searchbar = () => {
+const Searchbar = ({ setSearchMovie }) => {
+  // handle debounce for movie search keyword
+  const debounceSearch = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        fn(...args);
+      }, delay);
+    };
+  };
+  const searchMovieNow = (searchedText) => {
+    setSearchMovie(searchedText);
+  };
+  const doSearch = debounceSearch(searchMovieNow, 1000);
+
+  const movieSearching = (e) => {
+    if (e.key === "Enter") {
+      setSearchMovie(e.target.value);
+    } else if (!e.target.value) {
+      setSearchMovie("");
+    } else {
+      doSearch(e.target.value);
+    }
+  };
+  
   return (
     <div className="mb-3 flex justify-center py-10 bg-sky-50">
       <label className="input">
@@ -18,7 +43,12 @@ const Searchbar = () => {
             <path d="m21 21-4.3-4.3"></path>
           </g>
         </svg>
-        <input type="search" required placeholder="Search for a movie..." />
+        <input
+          type="search"
+          required
+          placeholder="Search for a movie..."
+          onKeyUp={movieSearching}
+        />
       </label>
     </div>
   );

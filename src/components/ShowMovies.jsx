@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import Movie from "./Movie";
 import MovieLoader from "./MovieLoader";
 
-const ShowMovies = () => {
+const ShowMovies = ({ searchMovie }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const fetchMovies = async () => {
-      const getMovies = await fetch("https://api.tvmaze.com/shows");
+    const fetchMovies = async (url) => {
+      const getMovies = await fetch(url);
       const response = await getMovies.json();
       setLoading(false);
       setMovies(response);
     };
-    fetchMovies();
-  }, []);
+    if (searchMovie.trim()) {
+      fetchMovies(`https://api.tvmaze.com/search/shows?q=${searchMovie}`);
+    } else {
+      fetchMovies("https://api.tvmaze.com/shows");
+    }
+  }, [searchMovie]);
   return (
     <div className="mx-12 my-6 flex justify-evenly space-y-5 gap-4 flex-wrap">
       {loading && (
@@ -24,7 +28,9 @@ const ShowMovies = () => {
         </div>
       )}
       {!loading &&
-        movies.map((movie) => <Movie key={movie.id} movie={movie} />)}
+        movies.map((movie, index) => (
+          <Movie key={movie?.id || index} movie={movie} />
+        ))}
     </div>
   );
 };

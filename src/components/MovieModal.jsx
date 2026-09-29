@@ -1,5 +1,5 @@
 const MovieModal = ({ movie, onClose, open }) => {
-  const { name, summary, image, rating, premiered, genres } = movie;
+  const { name, summary, image, rating, premiered, genres } = movie?.show || movie;
   return (
     <dialog id="my_modal_1" className="modal" open={open}>
       <div className="modal-box">
