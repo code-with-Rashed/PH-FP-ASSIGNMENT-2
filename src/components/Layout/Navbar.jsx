@@ -2,7 +2,7 @@ import { Link } from "react-router";
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100 shadow-sm fixed">
+    <div className="navbar bg-base-100 shadow-sm">
       <div className="flex-1">
         <Link to="/" className="flex items-center gap-1 text-xl">
           <img src="/movie-player-logo.gif" alt="Logo" />
